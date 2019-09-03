@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="30dp"
+    tools:context=".MainActivity">
+
+   <android.inputmethodservice.ExtractEditText
+       android:id="@+id/edtEmail"
+
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+   </android.inputmethodservice.ExtractEditText>
+
+    <android.inputmethodservice.ExtractEditText
+        android:id="@+id/edtPass"
+
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.inputmethodservice.ExtractEditText>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_CrearCuenta"
+        android:text="@string/create_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_SingIn"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

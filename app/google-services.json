@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "29602521050",
+    "firebase_url": "https://authmail-7ea46.firebaseio.com",
+    "project_id": "authmail-7ea46",
+    "storage_bucket": "authmail-7ea46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29602521050:android:51bca6996b823e2d",
+        "android_client_info": {
+          "package_name": "com.codemen.authcorreo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29602521050-nof7hnim2k4ao1ibprisecefk2kurkk2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLcXosrGeQHXKUvp1FQu2rW4l5HQK38Fo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29602521050-nof7hnim2k4ao1ibprisecefk2kurkk2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
