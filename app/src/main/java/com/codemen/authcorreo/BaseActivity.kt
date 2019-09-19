@@ -35,4 +35,8 @@ open class BaseActivity : AppCompatActivity(){
         super.onStop()
         hideProgressDialog()
     }
+
+    companion object {
+        const val TAG = "EmailPassword"
+    }
 }

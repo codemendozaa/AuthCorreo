@@ -12,15 +12,18 @@ import com.google.firebase.auth.FirebaseUser
 
 import kotlinx.android.synthetic.main.activity_email_password.*
 
-class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
+class EmailPasswordActivity :BaseActivity(),View.OnClickListener {
 
     // [START declare_auth]
     private lateinit var auth: FirebaseAuth
-    // [END declare_auth]
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email_password)
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
 
 
@@ -30,15 +33,15 @@ class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
         signOutButton.setOnClickListener(this)
         verifyEmailButton.setOnClickListener(this)
 
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance()
-        // [END initialize_auth]
+
+
+
     }
 
     // [START on_start_check_user]
     public override fun onStart() {
         super.onStart()
+
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         updateUI(currentUser)
@@ -187,9 +190,8 @@ class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View) {
-        val i = v.id
-        when (i) {
+    override fun onClick(view: View) {
+        when (view.id) {
             R.id.emailCreateAccountButton -> createAccount(fieldEmail.text.toString(), fieldPassword.text.toString())
             R.id.emailSignInButton -> signIn(fieldEmail.text.toString(), fieldPassword.text.toString())
             R.id.signOutButton -> signOut()
@@ -197,7 +199,5 @@ class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
         }
     }
 
-    companion object {
-        private const val TAG = "EmailPassword"
-    }
+
 }
