@@ -1,13 +1,17 @@
 package com.codemen.authcorreo
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
+import java.lang.Exception
 
-open class BaseActivity : AppCompatActivity(){
+open class Utils : AppCompatActivity(){
 
     @VisibleForTesting
     val progressDialog by lazy {
@@ -35,4 +39,25 @@ open class BaseActivity : AppCompatActivity(){
         super.onStop()
         hideProgressDialog()
     }
+
+
+    fun Activity.ToastShort(mensaje :String){
+        Toast.makeText(this,mensaje, Toast.LENGTH_SHORT).show()
+
+    }
+
+    fun Activity.ToastLong(mensaje :String){
+        Toast.makeText(this,mensaje, Toast.LENGTH_LONG).show()
+
+    }
+
+    fun writeToLog(content: String, exception: Exception?) {
+        Log.d("TestLog:", content)
+    }
+
+    fun writeLog(content: String) {
+        Log.d("TestLog:", content)
+    }
+
+
 }

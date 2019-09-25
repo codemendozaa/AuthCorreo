@@ -5,109 +5,91 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 import kotlinx.android.synthetic.main.activity_email_password.*
 
-class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
+class EmailPasswordActivity : Utils(), View.OnClickListener {
 
-    // [START declare_auth]
     private lateinit var auth: FirebaseAuth
-    // [END declare_auth]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_email_password)
 
+        auth = FirebaseAuth.getInstance()
 
-
-        // Buttons
         emailSignInButton.setOnClickListener(this)
         emailCreateAccountButton.setOnClickListener(this)
         signOutButton.setOnClickListener(this)
         verifyEmailButton.setOnClickListener(this)
 
-        // [START initialize_auth]
-        // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance()
-        // [END initialize_auth]
+
     }
 
-    // [START on_start_check_user]
+
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         updateUI(currentUser)
     }
-    // [END on_start_check_user]
+
 
     private fun createAccount(email: String, password: String) {
-        Log.d(TAG, "createAccount:$email")
+        writeLog("createAccount:$email")
         if (!validateForm()) {
             return
         }
 
         showProgressDialog()
 
-        // [START create_user_with_email]
+
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
+                    ToastLong("createUserWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+                    writeToLog("createUserWithEmail:failure", task.exception)
+                    ToastLong("Authentication failed.")
                     updateUI(null)
                 }
 
-                // [START_EXCLUDE]
                 hideProgressDialog()
-                // [END_EXCLUDE]
+
             }
-        // [END create_user_with_email]
+
     }
 
     private fun signIn(email: String, password: String) {
-        Log.d(TAG, "signIn:$email")
+        writeLog("signIn:$email")
         if (!validateForm()) {
             return
         }
 
         showProgressDialog()
 
-        // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
+                    writeLog("signInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "Authentication failed.",
-                        Toast.LENGTH_SHORT).show()
+
+                    writeToLog("signInWithEmail:failure", task.exception)
+                    ToastLong("Authentication failed.")
                     updateUI(null)
                 }
 
-                // [START_EXCLUDE]
                 if (!task.isSuccessful) {
                     status.setText(R.string.auth_failed)
                 }
                 hideProgressDialog()
-                // [END_EXCLUDE]
             }
-        // [END sign_in_with_email]
     }
 
     private fun signOut() {
@@ -116,31 +98,23 @@ class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
     }
 
     private fun sendEmailVerification() {
-        // Disable button
+
         verifyEmailButton.isEnabled = false
 
-        // Send verification email
-        // [START send_email_verification]
         val user = auth.currentUser
         user?.sendEmailVerification()
             ?.addOnCompleteListener(this) { task ->
-                // [START_EXCLUDE]
-                // Re-enable button
+
                 verifyEmailButton.isEnabled = true
 
                 if (task.isSuccessful) {
-                    Toast.makeText(baseContext,
-                        "Verification email sent to ${user.email} ",
-                        Toast.LENGTH_SHORT).show()
+                    ToastLong("Verification email sent to ${user.email}")
+
                 } else {
-                    Log.e(TAG, "sendEmailVerification", task.exception)
-                    Toast.makeText(baseContext,
-                        "Failed to send verification email.",
-                        Toast.LENGTH_SHORT).show()
+                    writeToLog("sendEmailVerification", task.exception)
+                    ToastShort("Failed to send verification email.")
                 }
-                // [END_EXCLUDE]
             }
-        // [END send_email_verification]
     }
 
     private fun validateForm(): Boolean {
@@ -168,8 +142,10 @@ class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
     private fun updateUI(user: FirebaseUser?) {
         hideProgressDialog()
         if (user != null) {
-            status.text = getString(R.string.emailpassword_status_fmt,
-                user.email, user.isEmailVerified)
+            status.text = getString(
+                R.string.emailpassword_status_fmt,
+                user.email, user.isEmailVerified
+            )
             detail.text = getString(R.string.firebase_status_fmt, user.uid)
 
             emailPasswordButtons.visibility = View.GONE
@@ -187,17 +163,20 @@ class EmailPasswordActivity :  BaseActivity(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View) {
-        val i = v.id
-        when (i) {
-            R.id.emailCreateAccountButton -> createAccount(fieldEmail.text.toString(), fieldPassword.text.toString())
-            R.id.emailSignInButton -> signIn(fieldEmail.text.toString(), fieldPassword.text.toString())
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.emailCreateAccountButton -> createAccount(
+                fieldEmail.text.toString(),
+                fieldPassword.text.toString()
+            )
+            R.id.emailSignInButton -> signIn(
+                fieldEmail.text.toString(),
+                fieldPassword.text.toString()
+            )
             R.id.signOutButton -> signOut()
             R.id.verifyEmailButton -> sendEmailVerification()
         }
     }
 
-    companion object {
-        private const val TAG = "EmailPassword"
-    }
+
 }
