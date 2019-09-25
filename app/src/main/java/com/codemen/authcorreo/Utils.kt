@@ -40,9 +40,6 @@ open class Utils : AppCompatActivity(){
         hideProgressDialog()
     }
 
-    companion object {
-        const val TAG = "string"
-    }
 
     fun Activity.ToastShort(mensaje :String){
         Toast.makeText(this,mensaje, Toast.LENGTH_SHORT).show()
