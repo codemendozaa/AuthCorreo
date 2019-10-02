@@ -11,7 +11,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Exception
 
-open class Utils : AppCompatActivity(){
+open class Extensions : AppCompatActivity(){
 
     @VisibleForTesting
     val progressDialog by lazy {

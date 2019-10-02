@@ -2,15 +2,13 @@ package com.codemen.authcorreo
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 import kotlinx.android.synthetic.main.activity_email_password.*
 
-class EmailPasswordActivity : Utils(), View.OnClickListener {
+class EmailPasswordActivity : Extensions(), View.OnClickListener {
 
     private lateinit var auth: FirebaseAuth
 
@@ -19,11 +17,6 @@ class EmailPasswordActivity : Utils(), View.OnClickListener {
         setContentView(R.layout.activity_email_password)
 
         auth = FirebaseAuth.getInstance()
-
-        emailSignInButton.setOnClickListener(this)
-        emailCreateAccountButton.setOnClickListener(this)
-        signOutButton.setOnClickListener(this)
-        verifyEmailButton.setOnClickListener(this)
 
 
     }
@@ -74,7 +67,7 @@ class EmailPasswordActivity : Utils(), View.OnClickListener {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
+
                     writeLog("signInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
