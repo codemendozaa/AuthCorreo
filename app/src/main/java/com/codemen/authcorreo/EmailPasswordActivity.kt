@@ -31,7 +31,7 @@ class EmailPasswordActivity : Extensions(), View.OnClickListener {
 
     private fun createAccount(email: String, password: String) {
         writeLog("createAccount:$email")
-        if (!validateForm()) {
+        if (!validateEmail() && !validatePass()) {
             return
         }
 
@@ -58,7 +58,7 @@ class EmailPasswordActivity : Extensions(), View.OnClickListener {
 
     private fun signIn(email: String, password: String) {
         writeLog("signIn:$email")
-        if (!validateForm()) {
+        if (!validateEmail() && !validatePass()) {
             return
         }
 
@@ -110,7 +110,7 @@ class EmailPasswordActivity : Extensions(), View.OnClickListener {
             }
     }
 
-    private fun validateForm(): Boolean {
+    private fun validateEmail(): Boolean {
         var valid = true
 
         val email = fieldEmail.text.toString()
@@ -120,17 +120,25 @@ class EmailPasswordActivity : Extensions(), View.OnClickListener {
         } else {
             fieldEmail.error = null
         }
+        return valid
+    }
 
+
+    private fun validatePass():Boolean{
+        var valid = false
         val password = fieldPassword.text.toString()
         if (TextUtils.isEmpty(password)) {
             fieldPassword.error = "Required."
-            valid = false
+
         } else {
             fieldPassword.error = null
         }
 
         return valid
+
     }
+
+
 
     private fun updateUI(user: FirebaseUser?) {
         hideProgressDialog()
